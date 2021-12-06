@@ -85,7 +85,7 @@ public:
 	/** Returns Sprite subobject **/
 	FORCEINLINE class UPaperFlipbookComponent* GetSprite() const { return Sprite; }
 	FORCEINLINE class USpringArmComponent* GetSpringArm() const { return SpringArm; }
-	FORCEINLINE class UCameraComponent* GetCam() const { return SideViewCamera; }
+	FORCEINLINE class UCameraComponent* GetCam() const { return CamComp; }
 	FORCEINLINE class USceneComponent* GetRot() const { return RotComp; }
 	FORCEINLINE class UArrowComponent* GetShot() const { return ShotPosComp; }
 };

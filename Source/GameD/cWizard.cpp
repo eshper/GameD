@@ -11,6 +11,7 @@
 #include "GameFramework/Controller.h"
 #include "Camera/CameraComponent.h"
 
+FName AcWizard::SpriteComponentName(TEXT("Sprite0"));
 
 // Sets default values
 AcWizard::AcWizard(const FObjectInitializer& ObjectInitializer)
@@ -26,8 +27,8 @@ AcWizard::AcWizard(const FObjectInitializer& ObjectInitializer)
 		Sprite->bAffectDynamicIndirectLighting = true;
 		Sprite->PrimaryComponentTick.TickGroup = TG_PrePhysics;
 		Sprite->SetupAttachment(GetCapsuleComponent());
-		static Fname FCollisionProfileName(TEXT("CharacterMesh"));
-		Sprite->SetCollisionProfileName(FCollisionProfileName);
+		static FName CollisionProfileName(TEXT("CharacterMesh"));
+		Sprite->SetCollisionProfileName(CollisionProfileName);
 		Sprite->SetGenerateOverlapEvents(false);
 		Sprite->SetFlipbook(IdleAnim);
 	}
@@ -36,11 +37,17 @@ AcWizard::AcWizard(const FObjectInitializer& ObjectInitializer)
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->SocketOffset = FVector(0.0f, 0.0f, 75.0f);
 	SpringArm->TargetArmLength = 900.0f;
-	SpringArm->RelativeRotation = FRotator(0.0f, -90.0f, 0.0f);
+	SpringArm->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	SpringArm->bDoCollisionTest = false;
-	SpringArm->bAbsoluteRotation = true;
+	SpringArm->SetUsingAbsoluteRotation(true);
 
 	CamComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CamComp"));
+	CamComp->ProjectionMode = ECameraProjectionMode::Perspective;
+	CamComp->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+	CamComp->bAutoActivate = true;
+	CamComp->bUsePawnControlRotation = true;
+
+	RotComp = CreateDefaultSubobject<USceneComponent>
 }	
 
 
